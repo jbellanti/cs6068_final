@@ -2,6 +2,7 @@ import argparse
 import io
 import os
 import sys
+import time
 
 # Imports the Google Cloud client library
 from google.cloud import speech
@@ -19,6 +20,9 @@ DEFAULT_AUDIO_FILE_PATH = os.path.join(
 DEFAULT_KEYWORDS = ['test', 'yep']
 VERBOSE = False
 
+# uncomment/modify for your path otherwise set the environment var beforehand
+# CRED_FILE = 'C:\\Users\\Kevin\\admin-speech2text-cs6068.json'
+# os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = CRED_FILE
 
 def vprint(*args):
     """
@@ -45,6 +49,7 @@ def do_speech_to_text(file_path, seq=False):
 
     # Instantiates a client
     client = speech.SpeechClient()
+    runtime_start = time.time()
 
     # Loads the audio into memory
     with io.open(file_path, 'rb') as audio_file:
@@ -65,6 +70,8 @@ def do_speech_to_text(file_path, seq=False):
             text_result += result.alternatives[0].transcript
             vprint('Transcript:', result.alternatives[0].transcript)
     
+    vprint('Speech to text runtime:', (time.time() - runtime_start)*1000, 'ms')
+
     return text_result
 
 
@@ -81,6 +88,7 @@ def do_text_search(text_input, keywords, seq=False):
         print('\tUse the -s option to try the sequention version.')
         return ''
 
+    runtime_start = time.time()
     vprint('keywords:', keywords)
     vprint('text_input:', text_input)
 
@@ -89,6 +97,7 @@ def do_text_search(text_input, keywords, seq=False):
         if word in keywords:
             vprint('Hit at word index', idx)
             hits.append([word, idx])
+    vprint('Search runtime:', (time.time() - runtime_start)*1000, 'ms')
 
     return hits
 
