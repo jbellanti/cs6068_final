@@ -42,6 +42,7 @@ def do_speech_to_text(file_path, seq=False):
     TODO: parallel implementation
     """
     text_result = ''
+    time_offset = []
     if not seq:
         print('Parallel implementation of speech to text not yet implemented.')
         print('\tUse the -s option to try the sequention version.')
@@ -59,6 +60,7 @@ def do_speech_to_text(file_path, seq=False):
         config = types.RecognitionConfig(
                     encoding=enums.RecognitionConfig.AudioEncoding.LINEAR16,
                     sample_rate_hertz=16000,
+                    enable_word_time_offsets=True,
                     language_code='en-US')
 
         vprint('Attempting speech to text conversion...')
@@ -68,11 +70,12 @@ def do_speech_to_text(file_path, seq=False):
 
         for result in response.results:
             text_result += result.alternatives[0].transcript
+            time_offset += result.alternatives[0].words
             vprint('Transcript:', result.alternatives[0].transcript)
-    
+
     vprint('Speech to text runtime:', (time.time() - runtime_start)*1000, 'ms')
 
-    return text_result
+    return text_result, time_offset
 
 
 def do_text_search(text_input, keywords, seq=False):
@@ -133,9 +136,18 @@ def main():
         print('ERROR: input file {} not found!' % args.input_file)
         sys.exit(1)
     
-    txt = do_speech_to_text(args.input_file, seq=args.sequential)
+    txt, time_offset = do_speech_to_text(args.input_file, seq=args.sequential)
     search_results = do_text_search(txt, args.keywords, seq=args.sequential)
-    print('search results:\n', search_results)
+
+    print('search results:')
+    for result in search_results:
+        print(
+            u"Index: {}, Word: {}, Start time: {} seconds {} nanos".format(
+                result[1], result[0],
+                time_offset[result[1]].start_time.seconds,
+                time_offset[result[1]].start_time.nanos
+            )
+        )
 
     
 if __name__ == '__main__':
