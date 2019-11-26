@@ -7,11 +7,11 @@ import os
 VERBOSE = False
 
 THIS_DIR = os.path.dirname(os.path.realpath(__file__))
-DEFUALT_AUDIO_FILE_NAME = 'Audio.wav'
-DEFUALT_AUDIO_FILE_DIR  = 'resources'
+DEFAULT_AUDIO_FILE_NAME = 'Audio.wav'
+DEFAULT_AUDIO_FILE_DIR  = 'resources'
 DEFAULT_AUDIO_FILE_PATH = os.path.join(THIS_DIR,
-                            DEFUALT_AUDIO_FILE_DIR, 
-                            DEFUALT_AUDIO_FILE_NAME)
+                            DEFAULT_AUDIO_FILE_DIR, 
+                            DEFAULT_AUDIO_FILE_NAME)
 DEFAULT_KEYWORDS = ['test', 'exam', 'important'] # , 'yep']
 
 

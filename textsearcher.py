@@ -1,37 +1,38 @@
 """textsearcher.py
 functions, utilities, and tests for text search code
 """
-import helpers
-import time
 import concurrent.futures as concf
+import helpers
+import os
+import time
 
 vprint = helpers.vprint
 
 
-def seq_text_search(text_input, keywords):
+def seq_text_search(text_input, keywords, base_index=0):
     """Execute sequential search for keywords in text_input.
 
-    TODO: text_input will eventually be words/lines/data paired with timestamps
-        handle lists/dictionaries when that data shape is more known/understood
+    TODO: text_input should be words/lines/data paired with timestamps
     """
     hits = []
     for idx, word in enumerate(text_input.split(' ')):
         # vprint('checking word:', word)
         if word in keywords:
-            vprint('Hit at word index', idx)
-            hits.append([word, idx])
+            vprint('Hit at word index', idx + base_index)
+            hits.append([word, idx + base_index])
     return hits
 
 
-def do_text_search(text_input, keywords, seq=False, gpu=False):
+def do_text_search(text_input, keywords, seq=False, gpu=False, chunk_size=2048, overlap=20):
     """Execute text search.
 
     TODO: paste this into main.py or abstract this functionality into class
     TODO: associate / maintain timestamps (till then the idx of the hit means very little)
-    TODO: parallel implementation
+    TODO: parallel (gpu) implementation
     """
     hits = []
     vprint('keywords:', keywords)
+    vprint('text_input size:', len(text_input))
     # vprint('text_input:', text_input)
     runtime_start = time.time()
 
@@ -40,10 +41,15 @@ def do_text_search(text_input, keywords, seq=False, gpu=False):
         hits = seq_text_search(text_input, keywords)
     # parallel search via ThreadPoolExecutor
     elif not seq and not gpu:
+        vprint('DISCLAIMER: parallel outputs have hybrid character/word indexing for hits')
         futs = []
         with concf.ThreadPoolExecutor() as executor:
-            for line in text_input.split('\n'):
-                futs.append(executor.submit(seq_text_search, line, keywords))
+            for i in range(0, len(text_input), chunk_size):
+                if i == 0:
+                    chunk = text_input[i:i+chunk_size] 
+                else:
+                    chunk = text_input[i-overlap:i+chunk_size]
+                futs.append(executor.submit(seq_text_search, chunk, keywords, base_index=i))
             for fut in futs:
                 hits += fut.result()
     # parallel search via GPU technology (CUDA)   
@@ -72,6 +78,7 @@ if __name__ == '__main__':
     Done, finished, over, complete, run a test with this now.
     '''
 
+    time.sleep(0.5)
     arbitrary_keywords_1 = [word.strip() for word in 'test, assignment, exam, important'.split(',')]
 
     vprint('==================================================')
@@ -93,18 +100,24 @@ if __name__ == '__main__':
     # print(do_text_search(arbitrary_text_1, arbitrary_keywords_1, seq=False, gpu=True))
     # vprint('')
 
-    # TODO: convert one of our lecture files into text format and execute these
-    # vprint('==================================================')
-    # vprint('Starting sequential search test with large-scale text input')
-    # vprint('==================================================')
-    # print(do_text_search(arbitrary_text_1, arbitrary_keywords_1, seq=True, gpu=False))
-    # vprint('')
+    sample_lecture_text = ''
+    with open(os.path.join( helpers.THIS_DIR, 
+                            helpers.DEFAULT_AUDIO_FILE_DIR, 
+                            'LectureFull.txt')) as f:
+        sample_lecture_text = f.read()
+    
+    time.sleep(0.5)
+    vprint('==================================================')
+    vprint('Starting sequential search test with large-scale text input')
+    vprint('==================================================')
+    print(do_text_search(sample_lecture_text, arbitrary_keywords_1, seq=True, gpu=False))
+    vprint('')
 
-    # vprint('==================================================')
-    # vprint('Starting parallel (non-gpu) search test with large-scale text input')
-    # vprint('==================================================')
-    # print(do_text_search(arbitrary_text_1, arbitrary_keywords_1, seq=False, gpu=False))
-    # vprint('')
+    vprint('==================================================')
+    vprint('Starting parallel (non-gpu) search test with large-scale text input')
+    vprint('==================================================')
+    print(do_text_search(sample_lecture_text, arbitrary_keywords_1, seq=False, gpu=False))
+    vprint('')
     
     # vprint('==================================================')
     # vprint('Starting parallel (gpu) search test with large-scale text input')
