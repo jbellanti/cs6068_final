@@ -12,7 +12,7 @@ DEFAULT_AUDIO_FILE_DIR  = 'resources'
 DEFAULT_AUDIO_FILE_PATH = os.path.join(THIS_DIR,
                             DEFAULT_AUDIO_FILE_DIR, 
                             DEFAULT_AUDIO_FILE_NAME)
-DEFAULT_KEYWORDS = ['test', 'exam', 'important'] # , 'yep']
+DEFAULT_KEYWORDS = ['test', 'exam'] # , 'yep']
 
 
 def vprint(*args):

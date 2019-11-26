@@ -9,28 +9,16 @@ from google.cloud import speech
 from google.cloud.speech import enums
 from google.cloud.speech import types
 
+# local imports
+from textsearcher import do_text_search
 
-# various globals (pathing etc.)
-THIS_DIR = os.path.dirname(os.path.realpath(__file__))
-DEFUALT_AUDIO_FILE_NAME = 'Audio.wav'
-DEFUALT_AUDIO_FILE_DIR  = 'resources'
-DEFAULT_AUDIO_FILE_PATH = os.path.join(THIS_DIR,
-                            DEFUALT_AUDIO_FILE_DIR, 
-                            DEFUALT_AUDIO_FILE_NAME)
-DEFAULT_KEYWORDS = ['test', 'exam', 'important'] # , 'yep']
-VERBOSE = False
+# various globals are in helpers.py, access via _h.<global>
+import helpers as _h
+vprint = _h.vprint
 
 # uncomment/modify for your path otherwise set the environment var beforehand
 # CRED_FILE = 'C:\\Users\\Kevin\\admin-speech2text-cs6068.json'
 # os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = CRED_FILE
-
-def vprint(*args):
-    """
-    custom print, only actually prints if VERBOSE is set globally
-    """
-    global VERBOSE
-    if VERBOSE:
-        print(*args)
 
 
 def do_speech_to_text(file_path, seq=False, save_text=False):
@@ -110,38 +98,11 @@ def do_speech_to_text(file_path, seq=False, save_text=False):
             new_fname = file_path.split('/')[-1]
         vprint('Trying to save text to', new_fname)
         new_fname = new_fname.split('.')[-2] + '.txt'
-        new_fpath = os.path.join(THIS_DIR, DEFUALT_AUDIO_FILE_DIR, new_fname)
+        new_fpath = os.path.join(_h.THIS_DIR, _h.DEFAULT_AUDIO_FILE_DIR, new_fname)
         with open(new_fpath, 'w') as f:
             f.write(text_result)
 
     return text_result, time_offset
-
-
-def do_text_search(text_input, keywords, seq=False):
-    """Execute text search.
-
-    TODO: associate / maintain timestamps
-    TODO: parallel implementation
-    """
-    hits = []
-
-    if not seq:
-        print('Parallel implementation of text search not yet implemented.')
-        print('\tUse the -s option to try the sequention version.')
-        return ''
-
-    runtime_start = time.time()
-    vprint('keywords:', keywords)
-    vprint('text_input:', text_input)
-
-    for idx, word in enumerate(text_input.split(' ')):
-        # vprint('checking word:', word)
-        if word in keywords:
-            vprint('Hit at word index', idx)
-            hits.append([word, idx])
-    vprint('Search runtime:', (time.time() - runtime_start)*1000, 'ms')
-
-    return hits
 
 
 def main():
@@ -158,33 +119,33 @@ def main():
     _a('--sequential', '-ss', action='store_true', 
         help='Execute the sequential version of the audio search feature.')
 
-    _a('--input-file', '-i', default=DEFAULT_AUDIO_FILE_PATH,
-        help='What file to execute the search feature on. ' +
-        'NOTE: this can (and must be) a bucket uri for long running ops (>1m) +'
+    _a('--input-file', '-i', default=_h.DEFAULT_AUDIO_FILE_PATH,
+        help='What file to execute the search feature on. '
+        'NOTE: this can (and must be) a bucket uri for long running ops (>1m)'
         'i.e. "gs://cs6068-farleykm-bucket/LectureShort.wav"')
 
     _a('--verbose', '-v', action='store_true',
         help='Print out more information during execution.')
 
-    _a('--keywords', '-k', default=DEFAULT_KEYWORDS,
+    _a('--keywords', '-k', default=_h.DEFAULT_KEYWORDS,
         help='What keywords to search for.')
 
     _a('--save-text', '-s', action='store_true', 
         help='Option to save the transcript as a txt file')
     args = arg_parser.parse_args()
 
-    global VERBOSE
-    VERBOSE = args.verbose
+    _h.VERBOSE = args.verbose
 
     vprint('args used:', args)
 
     if not os.path.exists(args.input_file): 
         print('WARNING: input file', args.input_file, 'not found!')
-        print('\tthe code will assume this is a google bucket uri else expect failure')
+        print('\tthe code will assume this is a google bucket uri')
     
     txt, time_offset = do_speech_to_text(
         args.input_file, seq=args.sequential, save_text=args.save_text)
-    search_results = do_text_search(txt, args.keywords, seq=args.sequential)
+    search_results = do_text_search(txt, args.keywords, seq=args.sequential, 
+                                    gpu=False, chunk_size=10000, overlap=20)
 
     print('search results:')
     for result in search_results:
