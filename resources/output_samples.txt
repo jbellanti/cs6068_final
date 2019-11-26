@@ -3,7 +3,7 @@
 
 ###############################################################################
 # Full Lecture conversion & search via sequential methods 
-#   commit: 83b185fc69d38116112e4efeebbfd3885bc1881c
+#   commit: 2d5b63d12d2dfde858fcdbdcbe38bc58879b916f
 ###############################################################################
 
 PS C:\Users\Kevin\Documents\myGit\cs6068_final> py .\main.py -s -ss -v -i "gs://cs6068-farleykm-bucket/LectureFull.wav" 
