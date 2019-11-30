@@ -21,7 +21,7 @@ def merge_strings(strings):
     for i, overlap in enumerate(overlaps):
         merged_words.extend(word_lists[i+1][overlap:])
 
-    print(' '.join(merged_words))
+    return ' '.join(merged_words)
 
 
 def get_overlaps(word_lists):
