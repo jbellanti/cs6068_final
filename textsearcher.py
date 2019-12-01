@@ -51,12 +51,12 @@ def _seq_text_search(text_input, keywords):
     for idx, word in enumerate(words_in_chunk):
         # vprint('checking word:', word)
         if word in keywords:
-            vprint('Hit at word index (in chunk)', idx)
+            vprint('Hit at word index', idx, '(in-chunk)')
             hits.append([word, idx])
     return hits, len(words_in_chunk)
 
 
-def do_text_search(text_input, keywords, seq=False, gpu=False, chunk_size=10000, overlap=20):
+def do_text_search(text_input, keywords, search_method, chunk_size=10000, overlap=20):
     """Execute text search.
 
     TODO: use this in main.py (potentially abstract into class maybe?)
@@ -65,20 +65,20 @@ def do_text_search(text_input, keywords, seq=False, gpu=False, chunk_size=10000,
     chunk_hits = []
     total_words = 0
     vprint('keywords:', keywords)
-    vprint('seq:', seq)
-    vprint('gpu:', gpu)
+    vprint('search_method:', search_method)
     vprint('text_input size:', len(text_input))
     vprint('chunk_size:', chunk_size)
     vprint('overlap:', overlap)
     runtime_start = time.time()
 
     # single thread/process search
-    if seq:
+    if search_method == _h.SEQUENTIAL_FLAG:
         res, total_words = _seq_text_search(text_input, keywords)
         chunk_hits.append([res] + [total_words, 0])
     # parallel search via ThreadPoolExecutor
-    elif not seq and not gpu:
-        print('DISCLAIMER: we are currently not handling partial words/overlap in global indexing...')
+    elif search_method == _h.PARALLEL_FLAG:
+        print('DISCLAIMER: for text-search, we are not handling partial words/overlap...')
+        print('DISCLAIMER: so the results will be approximate')
         futs = []
         with concf.ThreadPoolExecutor() as executor:
             for i in range(0, len(text_input), chunk_size):
@@ -92,11 +92,16 @@ def do_text_search(text_input, keywords, seq=False, gpu=False, chunk_size=10000,
                 chunk_hits.append(res + [total_words])
                 total_words += res[1]
     # parallel search via GPU technology (CUDA)   
-    elif not seq and gpu:
+    elif search_method == _h.GPU_FLAG:
         print('DISCLAIMER: we are currently not handling partial words/overlap in global indexing...')
+        print('DISCLAIMER: so the results will be approximate')
         # TODO: implement parallel text search with cuda bindings
         print('(GPU) Parallel implementation of text search not yet implemented.')
         print('\tUse the -s option to try the sequention version.')
+        return ''
+    else:
+        print('UNKNOWN SEARCH METHOD (', search_method, ')!')
+        print('use the -h option for more usage information.')
         return ''
 
     print('Search runtime:', (time.time() - runtime_start)*1000, 'ms')
@@ -128,23 +133,23 @@ if __name__ == '__main__':
     print('==================================================')
     print('Starting sequential search test with small-scale text input')
     print('==================================================')
-    print(do_text_search(   arbitrary_text_1, arbitrary_keywords_1, seq=True, 
-                            gpu=False, chunk_size=CHUNK_SIZE, overlap=OVERLAP))
+    print(do_text_search(   arbitrary_text_1, arbitrary_keywords_1, _h.SEQUENTIAL_FLAG, 
+                            chunk_size=CHUNK_SIZE, overlap=OVERLAP))
     print('')
 
     print('==================================================')
     print('Starting parallel (non-gpu) search test with small-scale text input')
     print('==================================================')
-    print(do_text_search(   arbitrary_text_1, arbitrary_keywords_1, seq=False, 
-                            gpu=False, chunk_size=CHUNK_SIZE, overlap=OVERLAP))
+    print(do_text_search(   arbitrary_text_1, arbitrary_keywords_1, _h.PARALLEL_FLAG, 
+                            chunk_size=CHUNK_SIZE, overlap=OVERLAP))
     print('')
     
     # TODO: implement parallel text search with cuda bindings
     vprint('==================================================')
     vprint('Starting parallel (gpu) search test with small-scale text input')
     vprint('==================================================')
-    print(do_text_search(   arbitrary_text_1, arbitrary_keywords_1, seq=False,
-                            gpu=True, chunk_size=CHUNK_SIZE, overlap=OVERLAP))
+    print(do_text_search(   arbitrary_text_1, arbitrary_keywords_1, _h.GPU_FLAG,
+                            chunk_size=CHUNK_SIZE, overlap=OVERLAP))
     vprint('')
 
     sample_lecture_text = ''
@@ -158,22 +163,22 @@ if __name__ == '__main__':
     print('==================================================')
     print('Starting sequential search test with large-scale text input')
     print('==================================================')
-    print(do_text_search(   sample_lecture_text, arbitrary_keywords_1, seq=True, 
-                            gpu=False, chunk_size=CHUNK_SIZE, overlap=OVERLAP))
+    print(do_text_search(   sample_lecture_text, arbitrary_keywords_1, _h.SEQUENTIAL_FLAG, 
+                            chunk_size=CHUNK_SIZE, overlap=OVERLAP))
     print('')
 
     print('==================================================')
     print('Starting parallel (non-gpu) search test with large-scale text input')
     print('==================================================')
-    print(do_text_search(   sample_lecture_text, arbitrary_keywords_1, seq=False,
-                            gpu=False, chunk_size=CHUNK_SIZE, overlap=OVERLAP))
+    print(do_text_search(   sample_lecture_text, arbitrary_keywords_1, _h.PARALLEL_FLAG,
+                            chunk_size=CHUNK_SIZE, overlap=OVERLAP))
     print('')
     
     vprint('==================================================')
     vprint('Starting parallel (gpu) search test with large-scale text input')
     vprint('==================================================')
-    print(do_text_search(   sample_lecture_text, arbitrary_keywords_1, seq=False,
-                            gpu=True, chunk_size=CHUNK_SIZE, overlap=OVERLAP))
+    print(do_text_search(   sample_lecture_text, arbitrary_keywords_1, _h.GPU_FLAG,
+                            chunk_size=CHUNK_SIZE, overlap=OVERLAP))
     vprint('')
 
     # novel to test on: https://norvig.com/big.txt
@@ -191,19 +196,19 @@ if __name__ == '__main__':
     # print('==================================================')
     # print('Starting sequential search test with massive text input')
     # print('==================================================')
-    # print(do_text_search( novel_text, arbitrary_keywords_1, seq=True, 
-    #                       gpu=False, chunk_size=CHUNK_SIZE, overlap=OVERLAP))
+    # print(do_text_search( novel_text, arbitrary_keywords_1, _h.SEQUENTIAL_FLAG, 
+    #                       chunk_size=CHUNK_SIZE, overlap=OVERLAP))
     # print('')
 
     # print('==================================================')
     # print('Starting parallel (non-gpu) search test with massive text input')
     # print('==================================================')
-    # print(do_text_search( novel_text, arbitrary_keywords_1, seq=False, 
-    #                       gpu=False, chunk_size=CHUNK_SIZE, overlap=OVERLAP))
+    # print(do_text_search( novel_text, arbitrary_keywords_1, _h.PARALLEL_FLAG, 
+    #                       chunk_size=CHUNK_SIZE, overlap=OVERLAP))
     # print('')
     
     # vprint('==================================================')
     # vprint('Starting parallel (gpu) search test with massive text input')
     # vprint('==================================================')
-    # print(do_text_search(novel_text, arbitrary_keywords_1, seq=False, gpu=True))
+    # print(do_text_search(novel_text, arbitrary_keywords_1, _h.GPU_FLAG))
     # vprint('')

@@ -14,6 +14,9 @@ DEFAULT_AUDIO_FILE_PATH = os.path.join(THIS_DIR,
                             DEFAULT_AUDIO_FILE_NAME)
 DEFAULT_KEYWORDS = ['test', 'exam'] # , 'yep']
 
+SEQUENTIAL_FLAG = 'sequential'
+PARALLEL_FLAG = 'parallel'
+GPU_FLAG = 'gpu'
 
 def vprint(*args):
     """
