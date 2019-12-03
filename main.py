@@ -9,73 +9,91 @@ from google.cloud import speech
 from google.cloud.speech import enums
 from google.cloud.speech import types
 
+# local imports
+from textsearcher import do_text_search
+
 # Imports for parallelization
 import concurrent.futures
 import audiosplitter
 import merge
 
-# various globals (pathing etc.)
-DEFUALT_AUDIO_FILE_NAME = 'Audio.wav'
-DEFUALT_AUDIO_FILE_DIR  = 'resources'
-DEFAULT_AUDIO_FILE_PATH = os.path.join(
-                            os.path.dirname(__file__),
-                            DEFUALT_AUDIO_FILE_DIR, 
-                            DEFUALT_AUDIO_FILE_NAME)
-DEFAULT_KEYWORDS = ['test', 'yep']
-VERBOSE = False
+# various globals are in helpers.py, access via _h.<global>
+import helpers as _h
+vprint = _h.vprint
+
+RESULT_LIST = []
 
 # uncomment/modify for your path otherwise set the environment var beforehand
 #CRED_FILE = 'C:\\Users\\Kevin\\admin-speech2text-cs6068.json'
-CRED_FILE = 'Parallel Final Project-f40a7d7b14ab.json'
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = CRED_FILE
+#CRED_FILE = 'Parallel Final Project-f40a7d7b14ab.json'
+#os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = CRED_FILE
 
-def vprint(*args):
-    """
-    custom print, only actually prints if VERBOSE is set globally
-    """
-    global VERBOSE
-    if VERBOSE:
-        print(*args)
 
 def thread_function(filename, id):
     try:
-        result_list.append(run_speech_to_text_client(filename, id = id))
+        RESULT_LIST.append(run_speech_to_text_client(filename))
     except Exception as e:
         print('THREAD', id, 'ERROR:', e.args[0])
 
-def run_speech_to_text_client(file_path, id = None):
+
+def run_speech_to_text_client(file_path):
     text_result = ''
     time_offset = []
      # Instantiates a client
     client = speech.SpeechClient()
-    runtime_start = time.time()
 
-    # Loads the audio into memory
-    with io.open(file_path, 'rb') as audio_file:
-        content = audio_file.read()
+    # NOTE: seems to only handle mono, to convert stereo to mono do this:
+    #   need to install ffmpeg for your system manually and put it on
+    #       your PATH var: https://ffmpeg.zeranoe.com/builds/
+    #
+    # ffmpeg -y -i LectureShort.mp3 -ac 1 -acodec pcm_s16le -ar 16000 LectureShort.wav
+
+    # NOTE: for long running (>1m), need to create a bucket and give uri
+    #   https://cloud.google.com/storage/docs/creating-buckets
+    # NOTE 2: this should not be an issue for our parallel implementation
+    #   i imagine we'd want to splice it into 1m or less chunks anyways
+
+    # TODO: make long running w/ bucket an option but not required here...
+
+    #LINEAR16 # for wav #ENCODING_UNSPECIFIED # for mp3
+    # NOTE: to convert to wav
+    # ffmpeg -i <inputfile (mp3 or other)> <outputfile.wav>
+    
+    if os.path.exists(file_path): 
+        # Loads the audio into memory
+        with io.open(file_path, 'rb') as audio_file:
+            content = audio_file.read()
         audio = types.RecognitionAudio(content=content)
+    else:
+        # uses bucket for long running op
+        storage_uri = file_path # 'gs://cs6068-farleykm-bucket/LectureShort.wav'
+        audio = types.RecognitionAudio(uri=storage_uri)
+             
+    config = types.RecognitionConfig(
+                encoding=enums.RecognitionConfig.AudioEncoding.LINEAR16,
+                sample_rate_hertz=16000,
+                enable_word_time_offsets=True,
+                language_code='en-US')
 
-        config = types.RecognitionConfig(
-                    encoding=enums.RecognitionConfig.AudioEncoding.LINEAR16,
-                    #sample_rate_hertz=16000,
-                    enable_word_time_offsets=True,
-                    language_code='en-US')
+    vprint('Attempting speech to text conversion...')
 
-        # Detects speech in the audio file
-        response = client.recognize(config, audio)
+    # Detects speech in the audio file    
+    vprint("Waiting for operation to complete...")
+    if os.path.exists(file_path):
+        response = client.recognize(config, audio) # short audio only <1m
+    else:
+        operation = client.long_running_recognize(config, audio)
+        response = operation.result()
 
-        for result in response.results:
-            text_result += result.alternatives[0].transcript
-            time_offset += result.alternatives[0].words
-            vprint('Transcript:', result.alternatives[0].transcript)
+    for result in response.results:
+        text_result += result.alternatives[0].transcript
+        time_offset += result.alternatives[0].words
+        vprint('Transcript:', result.alternatives[0].transcript)
 
-    vprint('Speech to text runtime:', (time.time() - runtime_start)*1000, 'ms')
+    return text_result, time_offset
 
-    return id, text_result, time_offset
 
-result_list = []
-
-def do_speech_to_text(file_path, seq=False):
+def do_speech_to_text(file_path, conversion_method, save_text=False):
     """Execute speech to text via google cloud's api.
     Heavily derived from google cloud's tutorial:
         https://cloud.google.com/speech-to-text/docs/reference/libraries
@@ -85,9 +103,11 @@ def do_speech_to_text(file_path, seq=False):
     """
     text_result = ''
     time_offset = []
-    if seq:
+    runtime_start = time.time()
+    if conversion_method == _h.SEQUENTIAL_FLAG:
         text_result, time_offset = run_speech_to_text_client(file_path)
-    else:
+        vprint('Speech to text runtime:', (time.time() - runtime_start)*1000, 'ms')
+    elif conversion_method == _h.PARALLEL_FLAG:
         print('Parallel implementation of speech to text not yet implemented.')
         print('\tUse the -s option to try the sequention version.')
         #return text_result, time_offset
@@ -105,40 +125,42 @@ def do_speech_to_text(file_path, seq=False):
             executer.map(thread_function, split_filenames, range(len(split_filenames)))
 
         print("done executing")
+        vprint('Speech to text runtime:', (time.time() - runtime_start)*1000, 'ms')
         
         # sort the list so that it is in order
-        result_list.sort(key=lambda id:id[0])
-
+        RESULT_LIST.sort(key=lambda x:x[0])
         # combine the text results
-        text_result = merge.merge_strings([s[1] for s in result_list])
+
+        # extract word info lists from results and compact into 1d array
+        # note: there's probably a better/less expensive way to do this...?
+        word_info_lists = [s[1] for s in [r for r in RESULT_LIST]]
+        word_info_list = []
+        for l in word_info_lists:
+            for w in l:
+                word_info_list.append(w)
+
+        text_result = merge.merge_strings([i.word for i in word_info_list])
+        # TODO get merged offsets too (probably just reference/return WordInfo during merge):
+        # i.e. make a merge_word_info rather than merge_strings
+        # https://cloud.google.com/speech-to-text/docs/reference/rpc/google.cloud.speech.v1#google.cloud.speech.v1.WordInfo
+    else:
+        print('UNKNOWN CONVERSION METHOD (', conversion_method, ')!')
+        print('use the -h option for more usage information.')
+        return
     
+    if save_text:
+        # extract file base name, make txt file and determine dump location
+        if os.path.exists(file_path):
+            new_fname = os.path.basename(file_path)
+        else:
+            new_fname = file_path.split('/')[-1]
+        vprint('Trying to save text to', new_fname)
+        new_fname = new_fname.split('.')[-2] + '.txt'
+        new_fpath = os.path.join(_h.THIS_DIR, _h.DEFAULT_AUDIO_FILE_DIR, new_fname)
+        with open(new_fpath, 'w') as f:
+            f.write(text_result)
+
     return text_result, time_offset
-
-def do_text_search(text_input, keywords, seq=False):
-    """Execute text search.
-
-    TODO: associate / maintain timestamps
-    TODO: parallel implementation
-    """
-    hits = []
-
-    if not seq:
-        print('Parallel implementation of text search not yet implemented.')
-        print('\tUse the -s option to try the sequention version.')
-        return ''
-
-    runtime_start = time.time()
-    vprint('keywords:', keywords)
-    vprint('text_input:', text_input)
-
-    for idx, word in enumerate(text_input.split(' ')):
-        # vprint('checking word:', word)
-        if word in keywords:
-            vprint('Hit at word index', idx)
-            hits.append([word, idx])
-    vprint('Search runtime:', (time.time() - runtime_start)*1000, 'ms')
-
-    return hits
 
 
 def main():
@@ -152,38 +174,60 @@ def main():
     """
     arg_parser = argparse.ArgumentParser()
     _a = arg_parser.add_argument
-    _a('--sequential', '-ss', action='store_true', 
+    _a('--search-method', '-s', choices=[_h.SEQUENTIAL_FLAG, _h.PARALLEL_FLAG, _h.GPU_FLAG],
+        default=_h.SEQUENTIAL_FLAG,
         help='Execute the sequential version of the audio search feature.')
+    
+    _a('--conversion-method', '-c', choices=[_h.SEQUENTIAL_FLAG, _h.PARALLEL_FLAG],
+        default=_h.SEQUENTIAL_FLAG,
+        help='Execute the sequential version of the text to speech feature.')
 
-    _a('--input-file', '-i', default=DEFAULT_AUDIO_FILE_PATH,
-        help='What file to execute the search feature on.')
+    _a('--input-file', '-i', default=_h.DEFAULT_AUDIO_FILE_PATH,
+        help='What file to execute the search feature on. '
+        'NOTE: this can (and must be) a bucket uri for long running ops (>1m)'
+        'i.e. "gs://cs6068-farleykm-bucket/LectureShort.wav"')
 
     _a('--verbose', '-v', action='store_true',
         help='Print out more information during execution.')
 
-    _a('--keywords', '-k', default=DEFAULT_KEYWORDS,
+    _a('--keywords', '-k', default=_h.DEFAULT_KEYWORDS,
         help='What keywords to search for.')
+
+    _a('--save-text', '-t', action='store_true', 
+        help='Option to save the transcript as a txt file')
     args = arg_parser.parse_args()
 
-    global VERBOSE
-    VERBOSE = args.verbose
+    _h.VERBOSE = args.verbose
+
+    vprint('args used:', args)
 
     if not os.path.exists(args.input_file): 
-        print('ERROR: input file {} not found!' % args.input_file)
-        sys.exit(1)
+        print('WARNING: input file', args.input_file, 'not found!')
+        print('\tthe code will assume this is a google bucket uri')
     
-    txt, time_offset = do_speech_to_text(args.input_file, seq=args.sequential)
-    #search_results = do_text_search(txt, args.keywords, seq=args.sequential)
+    txt, time_offset = do_speech_to_text(
+        args.input_file, args.conversion_method.lower(), save_text=args.save_text)
+    search_results = do_text_search(txt, args.keywords, args.search_method.lower(), 
+                                    chunk_size=10000, overlap=20)
 
-    #print('search results:')
-    #for result in search_results:
-    #    print(
-    #        u"Index: {}, Word: {}, Start time: {} seconds {} nanos".format(
-    #            result[1], result[0],
-    #            time_offset[result[1]].start_time.seconds,
-    #            time_offset[result[1]].start_time.nanos
-    #        )
-    #    )
+    print('search results:')
+    # NOTE/TODO: parallel speech to text doesn't handle merging timestamps yet
+    if args.conversion_method.lower() == _h.SEQUENTIAL_FLAG:
+        for result in search_results:
+            print(
+                u"Index: {}, Word: {}, Start time: {} seconds {} nanos".format(
+                    result[1], result[0],
+                    time_offset[result[1]].start_time.seconds,
+                    time_offset[result[1]].start_time.nanos
+                )
+            )
+    else:
+        for result in search_results:
+            print(
+                u"Index: {}, Word: {}".format(
+                    result[1], result[0]
+                )
+            )
 
     
 if __name__ == '__main__':

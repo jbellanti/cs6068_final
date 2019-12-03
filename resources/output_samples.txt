@@ -1,0 +1,327 @@
+# This file contains example outputs along with associated commit hashes when they were run
+# for archiving metrics and versioning and whatnot
+
+###############################################################################
+# Full Lecture conversion & search via sequential methods 
+#   commit: 2d5b63d12d2dfde858fcdbdcbe38bc58879b916f
+###############################################################################
+
+PS C:\Users\Kevin\Documents\myGit\cs6068_final> py .\main.py -s -ss -v -i "gs://cs6068-farleykm-bucket/LectureFull.wav" 
+args used: Namespace(input_file='gs://cs6068-farleykm-bucket/LectureFull.wav', keywords=['test', 'exam', 'important'], save_text=True, sequential=True, verbose=True)
+WARNING: input file gs://cs6068-farleykm-bucket/LectureFull.wav not found!
+        the code will assume this is a google bucket uri else expect failure
+Attempting speech to text conversion...
+Waiting for operation to complete...
+Transcript: I hope everyone will talk about at the end of class today homework
+Transcript: or anybody having any problem with their with their setup
+Transcript:  question practice exam and I started cover the material that you're responsible for
+Transcript:  working for them on the Ohio supercomputer Center
+Transcript:  how are you
+Transcript:  how to make files work for you
+Transcript:  okay I'll just probably point
+Transcript:  we are working for you today
+Transcript:  can you hear me
+Transcript:  accuracy
+Transcript:  take me to the speakers
+Transcript:  what is a histogram
+Transcript:  picture of a matrix counting up how many values
+Transcript:  and how many Benji one that you want the number bins if we're going to do histograms and parallel we talked about for alternative approaches for parallel Computing what are the four approaches to
+Transcript:  what's the main problem
+Transcript:  we have multiple operation
+Transcript:  multiple update
+Transcript:  current update
+Transcript:  set alarm for all the block by block
+Transcript:  the first one
+Transcript:  what's the conflict in shared memory
+Transcript:  what is an atomic add do. We don't know what her block Global Atomic add her block an article as an architect
+Transcript:  what's the turtle bread
+Transcript:  so what was the problem with Instagram
+Transcript:  only one limit
+Transcript:  we can only have a number of
+Transcript:  that is probably the best what we have order login
+Transcript:  which one would you choose
+Transcript:  memory
+Transcript:  shared memory
+Transcript:  probably the best
+Transcript:  the number of data
+Transcript:  at least a million and so if I have that many fins what do I have to do
+Transcript:  Jordan shared memory 04 block right I can just do I don't have to worry about anything like that
+Transcript:  okay so Abby's message which is comparison
+Transcript:  Dumbledore comparison Bay
+Transcript:  what can parakeets eat
+Transcript:  and by Tonic merge sort
+Transcript:  which ones are adjacent
+Transcript:  how about with your
+Transcript:  compare and swap is Jason Kidd
+Transcript:  quick story
+Transcript:  take me to the pit
+Transcript:  you better half the distance across
+Transcript:  Voltaire, fight Sonic merger
+Transcript:  which ones work assistant
+Transcript:  insertion sort
+Transcript:  what what is a case where insertion sort is an efficient algorithm
+Transcript:  usually
+Transcript:  well we don't really know have a good lower Bound for
+Transcript:  counting sort work assistant
+Transcript:  Electro
+Transcript:  India repair
+Transcript:  4 parallel
+Transcript:  call transposition store
+Transcript:  how many steps does it take how many steps would it take for the store comparison followed by comparison
+Transcript:  quicksort 7 fishing
+Transcript:  remember steps of the number of dependencies right
+Transcript:  how many steps
+Transcript:  what's the
+Transcript:  discuss a parallel version of merging so we don't really know right now so we'll leave that out
+Transcript:  how many steps to do counting score
+Transcript:  spelling sort is Paris comparison comparison a different number of items that I see every pair then I can place by this IP address of every element
+Transcript:  the right we have to do when we call the comparison in or reproduction it's a reduction
+Transcript:  electric login
+Transcript:  to work work work and the number
+Transcript:  what is the starting Network how would you define a sorting Network
+Transcript:  a network of computers designed specifically for
+Transcript:  how how how do you how do you mod
+Transcript:  every story network is made up of a series of columns and structure
+Transcript:  pick up a call on this is an interconnection how would you describe the work
+Transcript:  how much work are we doing at work how much work do we do
+Transcript:  the number for Paradise how many times does 2 things compared to describe the number of steps in Astoria at work
+Transcript:  execute the columns in one step
+Transcript:  Olivia sorting algorithm
+Transcript:  what's an oblivious story algorithm
+Transcript:  I'm just warning Network let's say we did transition store to buy tonic
+Transcript:  quickscore
+Transcript:  Olivia
+Transcript:  Define how we split
+Transcript:  transposition for is not really recursive but let's just do it straight up
+Transcript:  analogy of how much work are we doing
+Transcript:  where and how many steps
+Transcript:  iconic merch store we could do recursively
+Transcript:  what is an image
+Transcript:  network net worth
+Transcript:  what are you doing
+Transcript:  Titanic
+Transcript:  what is the merging
+Transcript:  where one is sorted decreasing and one is sorted increasing right side is producing a sordid sequence decreasing order to order increasing order
+Transcript:  sequences so this will take in to store the sequence of increasing and decreasing and reduce assorted sequence
+Transcript:  Associates a recursive construction order size does sorting Network that's twice the size what would you do how to build a sorting Network I'm twice your size
+Transcript:  and then what do I do if the number of levels is logarithmic
+Transcript:  cursive Lee / 2 time until I get down to four. How you would build a by Tonic Storch net worth
+Transcript:  recursively right so we have work of end
+Transcript:  so what is it going to be from the sector you should be able to derive once a recurrence relation is a w o n
+Transcript:  what's 1
+Transcript:  how much work am I doing and that I need to work in / 2 + 10 / 2 how many level
+Transcript:  Aqueon roll bit
+Transcript:  lights merch store except for what this is the same but it merged to unroll it and you will fly it it would just get
+Transcript:  call Buchanan roles has a show that you get
+Transcript:  recursive construction so
+Transcript:  know about the same number of columns and then what do I have left to do
+Transcript:  I'm going to add emergency Network and how many how many steps do I add an emergency net worth
+Transcript:  login
+Transcript:  and then I have to add login stuff on rolling log in terms of them
+Transcript:  remind me that this is correct and we proved it by using a famous results 01 sorting principal in somebody tell me what's the new 01 sorting principle
+Transcript:  badass and I'll really been stored a sequence of zeros and ones then it can sort a sequence of any numbers every sequence of zeros in 1 tablets only comparison sequence of value
+Transcript:  view from last week
+Transcript:  material
+Transcript:  today we're going to talk about will fill in some details when we left for you got to be the 7th problem set for
+Transcript:  and then if I do it
+Transcript:  would that be enough to store if I knew the starting address of each bucket to make it actually output and Storage
+Transcript:  you need to know how many elements are in each bucket
+Transcript:  how would you finish it off
+Transcript:  start quickly run through putting in a 3 1 1 2 2 3 2 4 and 3
+Transcript:  what would a thread do what could the thread do I Casino
+Transcript:  that is supposed to write
+Transcript:  if I have a three 1 and then it says 1 0 3 4
+Transcript:  racism no one has the right to have all the running stopped and then you have the original I guess jeans or whatever like the keys and you find the threads local index and what you do is
+Transcript:  and what you do is you take that index and you
+Transcript:  find
+Transcript:  number in the running song that is the two numbers that form a boundary around responsible for
+Transcript:  count how many times you change it
+Transcript:  where I am in that sequin exactly
+Transcript:  I need stitches of my input
+Transcript:  that's why I'm going to look at the starting from the ending at the most significant
+Transcript:  how many bison in the 32-bit unsigned pin number how big would that be in a base 10 representation of 2 to the 32 roughly
+Transcript:  67 Day Fix
+Transcript:  M32
+Transcript:  12 thirteen digits 13:4
+Transcript:  34113 1
+Transcript:  what is the first one 266-364-1678
+Transcript:  everybody follow on Instagram so that'll be first and then I have to battle be seconds
+Transcript:  is another to another two and that I haven't read
+Transcript:  another name for Ben
+Transcript:  so where's the one the first one is here the next one is here send it to be another another three and then the 4th in
+Transcript:  prove it prove that Radix sort worth numbers in base be so my claim is that in order
+Transcript:  so whatever I am after the ice staff are sorted
+Transcript:  actor if I just look at the low order I digits okay is the algorithm correct and so it is correct that proves that the album is correct when I want noticed that it and prove that is true for iPhone 1
+Transcript:  and now what does that mean numbers X and Y in my list
+Transcript:  are they in sorted order
+Transcript:  likewise is the ice for the first digit is bigger than it will be in a bucket when they're in the same bucket right so I have two numbers that are in the same bucket their order depends on the last I've already sorted
+Transcript:  I only need this one claim it requires that is stable enough to get out of order so they were in the correct order by induction on the I side dishes so as long as they stay stable another word I don't want to change the order in which they appear in later 
+stages
+Transcript:  however you do your fence or do you want to make sure that you don't walk things better out of out of water than they were the previous day
+Transcript:  simple proof based upon induction so
+Transcript:  student parallel
+Transcript:  we simply look at that
+Transcript:  position and do what Ben Stewart
+Transcript:  how do we do that well
+Transcript:  is the problem that we talked about before we have to know how far it is from the beginning
+Transcript:  with the symbol scan Network focused on and what are offset is from of those value if we want to because it's just
+Transcript:  so I know where the beginning of every sentence
+Transcript:  determine the relative Austin example represents one distribution for every key zero is the first zero
+Transcript:  0 position this is zero in the first position this is the first one is the second one is the third 040 third one
+Transcript:  every element
+Transcript:  everybody understand
+Transcript:  code
+Transcript:  I'm going to show you it's from the correlation
+Transcript:  anybody know what that is
+Transcript:  what is the probability Dorothy scores and use a threshold value we can just color recolor all the highest probability score for all pixels that look like their red eyes parts of a red I am so we can just exchange them okay but the values that are these cross-correlation score
+Transcript:  pixel has a cross-correlation for the input values cross-correlation scores
+Transcript:  positions representing the store did values and then distorted outputs position and that's all we know the number of element so that you're familiar with how the reference code look at the reference code and work backwards from there because it's they're going to show you basically how the algorithm work and you'll identify the portions that that you're focused on the reference code
+Transcript:  what kind of look at it
+Transcript:  power
+Transcript:  which has two bins in it and quit position and we have our output values in an output position every bit position how many bits editions are there
+Transcript:  well we're going to go we're going to add the number of time for 32 I goes from 0 to 32 and will incremented by how many fifths are only came for my skin by one
+Transcript:  and so we get a map
+Transcript:  analyzes the number of in to -1 and then we left
+Transcript:  single bit
+Transcript:  did Operation does a a Big Y
+Transcript:  I just look at all the elements as the counter for the histogram kind of dumb because we only have one then so essentially done with the correct location
+Transcript:  are we going to put
+Transcript:  from the input and we put that into this the value for the output
+Transcript:  we take the position of the Jay Salamon and we put that into the position output go to the next
+Transcript:  next in Dexter
+Transcript:  Udacity reference code so the only thing you have to do basically to write a kernel kernel have to do that are looking at every element want to do that in parallel
+Transcript:  and we'll do the song
+Transcript:  what's the weather for homework
+Transcript:  simplest wanted to do it for the base to and if you if you want to see whether they could improve by having larger larger numbers
+Transcript:  turn over the function that map of value to an index in Array
+Transcript:  we want to be able to quickly find volume
+Transcript:  find the value of a hash function that map that Universe to a small number of values that represent the end of Act 2 why is it a problem what was the main problem with
+Transcript:  what causes Collision multiple guys are maps the same index
+Transcript:  I don't think so that were in your hash table
+Transcript:  overtime
+Transcript:  what's the opposite of
+Transcript:  what's the best you could hope for
+Transcript:  suppose I have
+Transcript:  function do if my hat function
+Transcript:  what would what would be
+Transcript:  what would I expect the probability of a collision to be
+Transcript:  is there a random I guess in uniform distribution so 1 / m
+Transcript:  so the probability of two
+Transcript:  stats for Fix-It excuse but let's look at all the keys what's the probability that
+Transcript:  maybe it's like a sequence like 1 / n * 1 / N - 1 + you can send you that all the way down to one
+Transcript:  would be greater than 1
+Transcript:  Zoo
+Transcript:  what is that say supposed to
+Transcript:  m2b
+Transcript:  large is the problem
+Transcript:  look up we have a perfect half
+Transcript:  create a perfect hash function
+Transcript:  what is the optimum
+Transcript:  if I have
+Transcript:  do I have any value
+Transcript:  and the other is open addressing
+Transcript:  did the review somebody tell me what separates painting mean what does that mean what does it mean to change
+Transcript:  I'll have the next to you that doesn't have any value have a way of looking into lot of the table that are open
+Transcript:  usually you'll have some function that well.
+Transcript:  Two other addresses
+Transcript:  what's the problem with separate
+Transcript:  what's the problem with
+Transcript:  what was the problem with retrieve so large that will be a problem, looking for a bond value
+Transcript:  call Dynamics set membership
+Transcript:  you want to be able to quickly retreated value from a table or no
+Transcript:  so we can solve the set membership problem
+Transcript:  against the problem is I want to quickly quickly
+Transcript:  that is quite useful and applications table
+Transcript:  table Willie code
+Transcript:  how do I code which islands are in the sea
+Transcript:  I'm going to
+Transcript:  turn the bloom filter
+Transcript:  sequence of 02 start
+Transcript:  what's a.m.
+Transcript:  0
+Transcript:  apply for membership
+Transcript:  how do I know when it has been seen before has been inserted what would you do
+Transcript:  possible
+Transcript:  all positive could I say
+Transcript:  stop minimize the probability positive determine the probability of a false positive
+Transcript:  and a large table the probability of a false positive
+Transcript:  effective way to do set membership we only have to choose
+Transcript:  coffee station
+Transcript:  what is the time now
+Transcript:  the other bird
+Transcript:  passion work table
+Transcript:  14 East hash function to pick up a possible location
+Transcript:  I want to location of an opening are already pick one of you guys out of there I need to put my hair so fly from the one of the item
+Transcript:  Dubrow house
+Transcript:  never fail to not be able to insert an item
+Transcript:  distractify if my
+Transcript:  if my table is still I can't wear this is very unlikely to happen Okay so
+Transcript:  that's great
+Transcript:  noticed that has the same key as a bunch of
+Transcript:  other possibility
+Transcript:  if this if I have another key
+Transcript:  set map to this same location or has three of K1 at all
+Transcript:  for this algorithm for sale
+Transcript:  what does grass have to look like for this address
+Transcript:  what would it mean for this Edge to fail
+Transcript:  well it might actually point back to some other node in the graph
+Transcript:  what do we call that when the condition where there's no leave that every path
+Transcript:  then the water condition.
+Transcript:  that is very low probability of
+Transcript:  implementation for like an opening
+Transcript:  I have a collision with the problem because it also has a collision with a problem where every. Hopefully we'll keep things spread out so that I always have an ability to terminate set up with one table and maybe a more simpler implementation might be with table
+Transcript:  I have a bunch of keys I have to Hash function
+Transcript:  let's see what happened so the first thing I do is try to I can store it in the ninth position by applying the first half second season 1 what is 50 go into the lot of the first half but noticed it's already occupied to go from there we need to apply at 53 will appear in we hopefully have an opening in the second table and we do
+Transcript:  100 can go into the first table 67 can go in the first position so we could look
+Transcript:  67 is position 6 now it can't write 267 is. So what are we do we kick out one noticed that if we have enough opening
+Transcript:  that will always
+Transcript:  what does parallel mean
+Transcript:  functions are totally independent what if you had for each like block memory and then at the end that you would like to do think there is not the end when you're trying to combine all the cat swimming
+Transcript:  the Separate Tables for each of the elements of East and then in the Clinton staff or in the the merging of these you would see if there's any and then from there you would try to move them.
+Transcript:  Collided
+Transcript:  what's a technique for handling to do every time you make an update to the table if we have to use atomic
+Transcript:  shared memory
+Transcript:  you have a nice something that will do after the midterm I want to go over
+Transcript:  very nice sample code the particle simulation objects that are moving together what I want to do
+Transcript:  it's good to take a guess a location and map out to a particle do
+Transcript:  I have multiple particles
+Transcript:  are you sure
+Transcript:  I want to know when so
+Transcript:  so what will we do what we will have a function that will consider a particle physics of weather are in the same location rice looks so that's how we can think about
+Transcript:  test whether two particles Collide and not
+Transcript:  I didn't prepare
+Transcript:  we'll save that for after the after the application table talk about that any questions that people might have
+Transcript:  what's the format is going to be in
+Transcript:  can anyone hear me
+Transcript:  don't want to go through all of them
+Transcript:  the weekend before the midterm
+Transcript:  any any other issues that people have
+Transcript:  and what's the solution is self on the one that I assumed everyone in this class is the recurrence relation for war
+Transcript:  and then store
+Transcript:  really just keep in mind that the merge sort recurrence relation
+Transcript:  one thing that kind of think about some dough to what I've seen is like he'll give you one question and then I'll be like kind of like your attention is otherwise you know it's like okay so if I give you a call.
+Transcript:  allows you to come back if you crash out and then let it so make it so we can resume
+Transcript:  if you want to post on The Piazza directly multiple choice multiple choice and maybe one too short
+Transcript:  examples of parallel tile out there for that
+Speech to text runtime: 1698331.4390182495 ms
+Trying to save text to LectureFull.wav
+keywords: ['test', 'exam', 'important']
+text_input: I hope everyone will talk about at the end of class today homeworkor anybody having any problem with their with their setup question practice exam and I started cover the material that you're responsible for working for them on the Ohio supercomputer Center how are you how to make files work for you okay I'll just probably point we are working for you today can you hear me accuracy take me to the speakers what is a histogram picture of a matrix counting up how many values and how many Benji one that you want the number bins if we're going to do histograms and parallel we talked about for alternative approaches for parallel Computing what are the four approaches to what's the main problem we have multiple operation multiple update current update set alarm for all the block by block the first one what's the conflict in shared memory what is an atomic add do. We don't know what her block Global Atomic add her block an article as an architect what's the turtle bread so what was the problem with Instagram only one limit we can only have a number of that is probably the best what we have order login which one would you choose memory shared memory probably the best the number of data at least a million and so if I have that many fins what do I have to do Jordan shared memory 04 block right I can just do I don't have to worry about anything like that okay so Abby's message which is comparison Dumbledore comparison Bay what can parakeets eat and by Tonic merge sort which ones are adjacent how about with your compare and swap is Jason Kidd quick story take me to the pit you better half the distance across Voltaire, fight Sonic merger which ones work assistant insertion sort what what is a case where insertion sort is an efficient algorithm usually well we don't really know have a good lower Bound for counting sort work assistant Electro India repair 4 parallel call transposition store how many steps does it take how many steps would it take for the store comparison followed by comparison quicksort 7 fishing remember steps of the number of dependencies right how many steps what's the discuss a parallel version of 
+merging so we don't really know right now so we'll leave that out how many steps to do counting score spelling sort is Paris comparison comparison a different number of items that I see every pair then I can place by this IP address of every element the right we have to do when we call the comparison in or reproduction it's a reduction electric login to work work work and the number what is the starting Network how would you define a sorting Network a network of computers designed specifically for how how how do you how do you mod every story network is made up of a series of columns and structure pick up a call on this is an interconnection how would you describe the work how much work are we doing at work how much work do we do the number for Paradise how many times does 2 things compared to describe the number of steps in Astoria at work execute the columns in one step Olivia sorting algorithm what's an oblivious story algorithm I'm just warning Network let's say we did transition store to buy tonic quickscore Olivia Define how we split transposition for is not really recursive but let's just do it straight up analogy of how much work are we doing where and how many steps iconic merch store we could do recursively what is an image network net worth what are you doing Titanic what is the merging where one is sorted decreasing and one is sorted increasing right side is producing a sordid sequence decreasing order to order increasing order sequences so this will take in to store the sequence of increasing and decreasing and reduce assorted sequence Associates a recursive construction order size does sorting Network that's twice the size what would you do how to build a sorting Network I'm twice your size and then what do I do if the number of levels is logarithmic cursive Lee / 2 time until I get down to four. How you would build a by Tonic Storch net worth recursively right so we have work of end so what is it going to be from the sector you should be able to derive once a recurrence relation is a w o n what's 1 how much work am I doing and that I need to work in / 2 + 10 / 2 how many level Aqueon roll bit lights 
+merch store except for what this is the same but it merged to unroll it and you will fly it it would just get call Buchanan roles has a show that you get recursive construction so know about the same number of columns and then what do I have left to do I'm going to add emergency Network and how many how many steps do I add an emergency net worth login and then I have to add login stuff on rolling log in terms of them remind me that this is correct and we proved it by using a famous results 01 sorting principal in somebody tell me what's the new 01 sorting principle badass and I'll really been stored a sequence of zeros and ones then it can sort a sequence of any numbers every sequence of zeros in 1 tablets only comparison sequence of value view from last week material today we're going to talk about will fill in some details when we left for you got to be the 7th problem set for and then if I do it would that be enough to store if I knew the starting address of each bucket to make it actually output and Storage you need to know how many elements are in each bucket how would you finish it off start quickly run through putting in a 3 1 1 2 2 3 2 4 and 3 what would a thread do what could the thread do I Casino that is supposed to write if I have a three 1 and then it says 1 0 3 4 racism no one has the right to have all the running stopped and then you have the original I guess jeans or whatever like the keys and you find the threads local index and what you do is and what you do is you take that index and you find number in the running song that is the two numbers that form a boundary around responsible for count how many times you change it where I am in that sequin exactly I need stitches of my input that's why I'm going to look at the starting from the ending at the most significant how many bison in the 32-bit unsigned pin number how big would that be in a base 10 representation of 2 to the 32 roughly 67 Day Fix M32 12 thirteen digits 13:4 34113 1 what is the first one 266-364-1678 everybody follow on Instagram so that'll be first and then I have to battle be seconds is another to another two and that I haven't read another name for Ben so where's the one the first one is here the next one is here send it to be another another three and then the 4th in prove it prove that Radix sort worth numbers in base be so my claim is that in order so whatever I am after the ice staff are sorted actor if I just look at the low order I digits okay is the algorithm correct and so it is correct that proves that the album is correct when I want noticed that it and prove that is true for iPhone 1 and now what does that mean numbers X and Y in my list are they in sorted order likewise is the ice for the first digit is bigger than it will be in a bucket when they're in the same bucket right so I have two numbers that are in the same bucket their order depends on the last I've already sorted I only need this one claim it requires that is stable enough to get out of order so they were in the correct order by induction on the I side dishes so as long as they stay stable another word I don't want to change the order in which they appear in later stages however you do your fence or do you want to make sure that you don't walk things better out of out of water than they were the previous day simple proof based upon induction so student parallel we simply look at that position and do what Ben Stewart how do we do that well is the problem that we talked about 
+before we have to know how far it is from the beginning with the symbol scan Network focused on and what are offset is from of those value if we want to because it's just so I know where the beginning of every sentence determine the relative Austin example represents one distribution for every key zero is the first zero 0 position this is zero in the first position this is the first one is the second one is the third 040 third one every element everybody understand code I'm going to show you it's from the correlation anybody know what that is what is the probability Dorothy scores and use a threshold value we can just color recolor all the highest probability score for all pixels that look like their red eyes parts of a red I am so we can just exchange them okay but the values that are these cross-correlation score pixel has a cross-correlation for the input values cross-correlation scores positions representing the store did values and then distorted outputs position and that's all we know the number of element so that you're familiar with how the reference code look at the reference code and work backwards from there because it's they're going to show you basically how the algorithm work and you'll identify the portions that that you're focused on the reference code what kind of look at it power which has two bins in it and quit position and we have our output values in an output position every bit position how many bits editions are there well we're going to go we're going to add the number of time for 32 I goes from 0 to 32 and will incremented by how many fifths are only came for my skin by one and so we get a map analyzes the number of in to -1 and then we left single bit did Operation does a a Big Y I just look at all the elements as the counter for the histogram kind of dumb because we only have one then so essentially done with the correct location are we going to put from the input and we put that into this the value for the output we take the position of the Jay Salamon and we put that into the position output go to the next next in Dexter Udacity reference code so the only thing you have to do basically to write a kernel kernel have to do that are looking at every element want to do that in parallel and we'll do the song what's the weather for homework simplest wanted to do it for the base to and if you if you want to see whether they could improve by having larger larger numbers turn over the function that map of value to an index in Array we want to be able to quickly find volume find the value of a hash function that map that Universe to a small number of values that represent the end of Act 2 why is it a problem what was the main problem with what causes Collision multiple guys are maps the same index I don't think so that were in your hash table overtime what's the opposite of what's the best you could hope for suppose I have function do if my hat function what would what would be what would I expect the probability of a collision to be is there a random I guess in uniform distribution so 1 / m so the probability of two stats for Fix-It excuse but let's look at all the keys what's the probability that maybe it's like a sequence like 1 / n * 1 / N - 1 + 
+you can send you that all the way down to one would be greater than 1 Zoo what is that say supposed to m2b large is the problem look up we have a perfect half create a perfect hash function what is the optimum if I have do I have any value and the other is open addressing did the review somebody tell me what separates painting mean what does that mean what does it mean to change I'll have the next to you that doesn't have any value have a way of looking into lot of the table that are open usually you'll have some function that well. Two other addresses what's the problem with separate what's the problem with what was the problem with retrieve so large that will be a problem, looking for a bond value call Dynamics set membership you want to be able to quickly retreated value from a table or no so 
+we can solve the set membership problem against the problem is I want to quickly quickly that is quite useful and applications table table Willie code how do I code which islands are in the sea I'm going to turn the bloom filter sequence of 02 start what's a.m. 0 apply for membership how do I know when it has been seen before has been inserted what would you do possible all positive could I say stop minimize the probability positive determine the probability of a false positive and a large table the probability of a false positive effective way to do set membership we only have to choose coffee station what is the time now the other bird passion work table 14 East hash function to pick up a possible location I want to location of an opening are already pick one of you guys out of there I need to 
+put my hair so fly from the one of the item Dubrow house never fail to not be able to insert an item distractify if my if my table is still I can't wear this is very unlikely to happen Okay so that's great noticed that has the same key as a bunch of other possibility if this if I have another key set map to this same location or has three of K1 at all for this algorithm for sale what does grass have to look like for this address what would it mean for this Edge to fail well it might actually point back to some other node in the graph what do we call that when the condition where there's no leave that every path then the water condition. that is very low probability of implementation for like an opening I have a collision with the problem because it also has a collision with a problem where every. Hopefully we'll keep things spread out so that I always have an ability to terminate set up with one table and maybe a more simpler implementation might be with table I have a bunch of keys I have to Hash function let's see what happened so the first thing I do is try to I can store it in the ninth position by applying the first half second season 1 what is 50 go into the lot of the first half but noticed it's already occupied to go from there we need to apply at 53 will appear in we hopefully have an opening in the second table and we do 100 can go into the first table 67 can go in the first position so we could look 67 is position 6 now it can't write 267 is. So what are we do we kick out one noticed that if we have enough opening that will always what does parallel mean functions are totally 
+independent what if you had for each like block memory and then at the end that you would like to do think there is not the end when you're trying to combine all the cat swimming the Separate Tables for each of the elements of East and then in the Clinton staff or in the the merging of these you would see if there's any and then from there you would try to move them. Collided what's a technique for handling to do every time you make an update to the table if we have to use atomic shared memory you have a nice something that will do 
+after the midterm I want to go over very nice sample code the particle simulation objects that are moving together what I want to do it's good to take a guess a location and map out to a particle do I have multiple particles are you sure I want to know when so so what 
+will we do what we will have a function that will consider a particle physics of weather are in the same location rice looks so that's how we can think about test whether two particles Collide and not I didn't prepare we'll save that for after the after the application table talk about that any questions that people might have what's the format is going to be in can anyone hear me don't want to go through all of them the weekend before the midterm any any other issues that people have and what's the solution is self on the one that 
+I assumed everyone in this class is the recurrence relation for war and then store really just keep in mind that the merge sort recurrence relation one thing that kind of think about some dough to what I've seen is like he'll give you one question and then I'll be like kind of like your attention is otherwise you know it's like okay so if I give you a call. allows you to come back if you crash out and then let it so make it so we can resume if you want to post on The Piazza directly multiple choice multiple choice and maybe one too 
+short examples of parallel tile out there for that
+Hit at word index 24
+Hit at word index 2970
+Search runtime: 136.0306739807129 ms
+search results:
+Index: 24, Word: exam, Start time: 110 seconds 700000000 nanos
+Index: 2970, Word: test, Start time: 5584 seconds 800000000 nanos
+PS C:\Users\Kevin\Documents\myGit\cs6068_final>

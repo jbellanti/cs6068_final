@@ -33,12 +33,12 @@ set GOOGLE_APPLICATION_CREDENTIALS=<current path>\admin-speech2text-cs6068.json
 - go ahead and try to run this code 
 ```batch
 python3 main.py -h
-python3 main.py -s -v
+python3 main.py -v
 ```
 - you may see a 403 error, if so you need to enable the api and billing
   - don't worry the billing will take from the $300 provided with your trial account
   - read the error message and go to the web link it describes to enable the api
-- re run `python3 main.py -s -v`
+- re run `python3 main.py -v`
 - you should then see the following among other program output
 ```
 Transcript: testing 1 2 3 test recording for Google Cloud
