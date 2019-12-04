@@ -3,6 +3,7 @@ import io
 import os
 import sys
 import time
+import math
 
 # Imports the Google Cloud client library
 from google.cloud import speech
@@ -31,7 +32,23 @@ RESULT_LIST = []
 
 def thread_function(filename, id):
     try:
-        RESULT_LIST.append(run_speech_to_text_client(filename))
+        text_result = ''
+        time_offset = []
+
+        # Get start time in milliseconds from the filename
+        start = filename.index("_") + len("_")
+        end = filename[start:].index("_")
+        end += start
+        ms = int(filename[start:end])
+        sec = math.floor(ms / 1000)
+
+        text_result, time_offset = run_speech_to_text_client(filename)
+        for i in range(len(time_offset)):
+            entry = {'word': time_offset[i].word,
+                     'seconds': sec + time_offset[i].start_time.seconds,
+                     'nanos': time_offset[i].start_time.nanos}
+            RESULT_LIST.append(entry)
+
     except Exception as e:
         print('THREAD', id, 'ERROR:', e.args[0])
 
@@ -106,6 +123,12 @@ def do_speech_to_text(file_path, conversion_method, save_text=False):
     runtime_start = time.time()
     if conversion_method == _h.SEQUENTIAL_FLAG:
         text_result, time_offset = run_speech_to_text_client(file_path)
+        for i in range(len(time_offset)):
+            entry = {'word': time_offset[i].word,
+                     'seconds': time_offset[i].start_time.seconds,
+                     'nanos': time_offset[i].start_time.nanos}
+            RESULT_LIST.append(entry)
+
         vprint('Speech to text runtime:', (time.time() - runtime_start)*1000, 'ms')
     elif conversion_method == _h.PARALLEL_FLAG:
         print('Parallel implementation of speech to text not yet implemented.')
@@ -128,25 +151,19 @@ def do_speech_to_text(file_path, conversion_method, save_text=False):
         vprint('Speech to text runtime:', (time.time() - runtime_start)*1000, 'ms')
         
         # sort the list so that it is in order
-        RESULT_LIST.sort(key=lambda x:x[0])
-        # combine the text results
 
-        # extract word info lists from results and compact into 1d array
-        # note: there's probably a better/less expensive way to do this...?
-        word_info_lists = [s[1] for s in [r for r in RESULT_LIST]]
-        word_info_list = []
-        for l in word_info_lists:
-            for w in l:
-                word_info_list.append(w)
+        RESULT_LIST.sort(key=lambda x:x['word'])
 
-        text_result = merge.merge_strings([i.word for i in word_info_list])
-        # TODO get merged offsets too (probably just reference/return WordInfo during merge):
-        # i.e. make a merge_word_info rather than merge_strings
+        # TODO: make sure python dictionaries don't allow for duplicates
+        # merge.merge_strings([i.word for i in RESULT_LIST])
+
         # https://cloud.google.com/speech-to-text/docs/reference/rpc/google.cloud.speech.v1#google.cloud.speech.v1.WordInfo
     else:
         print('UNKNOWN CONVERSION METHOD (', conversion_method, ')!')
         print('use the -h option for more usage information.')
         return
+
+    text_result = RESULT_LIST
     
     if save_text:
         # extract file base name, make txt file and determine dump location
@@ -211,23 +228,15 @@ def main():
                                     chunk_size=10000, overlap=20)
 
     print('search results:')
-    # NOTE/TODO: parallel speech to text doesn't handle merging timestamps yet
-    if args.conversion_method.lower() == _h.SEQUENTIAL_FLAG:
-        for result in search_results:
-            print(
-                u"Index: {}, Word: {}, Start time: {} seconds {} nanos".format(
-                    result[1], result[0],
-                    time_offset[result[1]].start_time.seconds,
-                    time_offset[result[1]].start_time.nanos
-                )
+    for result in search_results:
+        hr = math.floor(result['seconds'] / 60 / 60)
+        min = math.floor(result['seconds'] / 60)
+        sec = result['seconds'] % 60
+        print(
+            u"Word: {}, Start time: {} hours {} minutes {} seconds {} nanos".format(
+                result['word'], hr, min, sec, result['nanos']
             )
-    else:
-        for result in search_results:
-            print(
-                u"Index: {}, Word: {}".format(
-                    result[1], result[0]
-                )
-            )
+        )
 
     
 if __name__ == '__main__':

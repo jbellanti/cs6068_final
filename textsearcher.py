@@ -42,18 +42,16 @@ def _extract_global_results(chunk_hit_data):
 def _seq_text_search(text_input, keywords):
     """Execute sequential search for keywords in text_input.
 
-    TODO: text_input should be words/lines/data paired with timestamps
     NOTE: can't pass base word index without superfluous preprocessing,
         just notate number of words checked and do post-processing outside
     """
     hits = []
-    words_in_chunk = text_input.split(' ')
-    for idx, word in enumerate(words_in_chunk):
-        # vprint('checking word:', word)
-        if word in keywords:
-            vprint('Hit at word index', idx, '(in-chunk)')
-            hits.append([word, idx])
-    return hits, len(words_in_chunk)
+    for word_info in text_input:
+        vprint('checking word:', word_info)
+        # vprint('checking word:', word_info['word'])
+        if word_info['word'] in keywords:
+            hits.append(word_info)
+    return hits
 
 
 def do_text_search(text_input, keywords, search_method, chunk_size=10000, overlap=20):
@@ -63,7 +61,6 @@ def do_text_search(text_input, keywords, search_method, chunk_size=10000, overla
     TODO: parallel (gpu) implementation
     """
     chunk_hits = []
-    total_words = 0
     vprint('keywords:', keywords)
     vprint('search_method:', search_method)
     vprint('text_input size:', len(text_input))
@@ -73,8 +70,7 @@ def do_text_search(text_input, keywords, search_method, chunk_size=10000, overla
 
     # single thread/process search
     if search_method == _h.SEQUENTIAL_FLAG:
-        res, total_words = _seq_text_search(text_input, keywords)
-        chunk_hits.append([res] + [total_words, 0])
+        chunk_hits = _seq_text_search(text_input, keywords)
     # parallel search via ThreadPoolExecutor
     elif search_method == _h.PARALLEL_FLAG:
         print('DISCLAIMER: for text-search, we are not handling partial words/overlap...')
@@ -89,8 +85,8 @@ def do_text_search(text_input, keywords, search_method, chunk_size=10000, overla
                 futs.append(executor.submit(_seq_text_search, chunk, keywords))
             for fut in futs:
                 res = list(fut.result())
-                chunk_hits.append(res + [total_words])
-                total_words += res[1]
+                for r in res:
+                    chunk_hits.append(r)
     # parallel search via GPU technology (CUDA)   
     elif search_method == _h.GPU_FLAG:
         print('DISCLAIMER: we are currently not handling partial words/overlap in global indexing...')
@@ -106,8 +102,8 @@ def do_text_search(text_input, keywords, search_method, chunk_size=10000, overla
 
     print('Search runtime:', (time.time() - runtime_start)*1000, 'ms')
 
-    return _extract_global_results(chunk_hits)
-    # return chunk_hits
+    #return _extract_global_results(chunk_hits)
+    return chunk_hits
 
 
 if __name__ == '__main__':
