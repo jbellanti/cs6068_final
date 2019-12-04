@@ -18,6 +18,9 @@ import concurrent.futures
 import audiosplitter
 import merge
 
+# Import for temporary file directory
+import tempfile
+
 # various globals are in helpers.py, access via _h.<global>
 import helpers as _h
 vprint = _h.vprint
@@ -36,7 +39,7 @@ def thread_function(filename, id):
         time_offset = []
 
         # Get start time in milliseconds from the filename
-        start = filename.index("_") + len("_")
+        start = filename.rindex("cs6068_final_") + len("cs6068_final_")
         end = filename[start:].index("_")
         end += start
         ms = int(filename[start:end])
@@ -92,8 +95,6 @@ def run_speech_to_text_client(file_path):
                 enable_word_time_offsets=True,
                 language_code='en-US')
 
-    vprint('Attempting speech to text conversion...')
-
     # Detects speech in the audio file    
     vprint("Waiting for operation to complete...")
     if os.path.exists(file_path):
@@ -131,16 +132,15 @@ def do_speech_to_text(file_path, conversion_method, save_text=False):
 
         vprint('Speech to text runtime:', (time.time() - runtime_start)*1000, 'ms')
     elif conversion_method == _h.PARALLEL_FLAG:
-        print('Parallel implementation of speech to text not yet implemented.')
-        print('\tUse the -s option to try the sequention version.')
-        #return text_result, time_offset
+        # create temp directory
+        tempdir = tempfile.TemporaryDirectory()
 
         # split the audio files
-        segment_length = 50000
+        segment_length = 30000
         overlap_length = 1000
         start_time = 0
         end_time = -1
-        split_filenames = audiosplitter.split_audio_file(file_path, segment_length, overlap_length, start_time, end_time)
+        split_filenames = audiosplitter.split_audio_file(file_path, segment_length, overlap_length, start_time, end_time, temp_dir=(tempdir.name + '/'))
     
         # spin up a thread for each split of the file
         #for split_filename in split_filenames:

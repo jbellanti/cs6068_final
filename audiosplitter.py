@@ -21,7 +21,7 @@ Output
 from pydub import AudioSegment
 import sys
 
-def split_audio_file(filename, segment_length, overlap_length, start_time, end_time):
+def split_audio_file(filename, segment_length, overlap_length, start_time, end_time, temp_dir=''):
 
     # load the audio file
     format_split = filename.rfind('.')
@@ -43,7 +43,7 @@ def split_audio_file(filename, segment_length, overlap_length, start_time, end_t
     for t1 in range(start_time, end_time, segment_start_delta):
         t2 = min(t1 + segment_length, end_time)
         newaudio = sound[t1:t2]
-        new_filename = fileprefix + '_' + str(t1) + '_' + str(t2) + '.' + filesuffix
+        new_filename = temp_dir + 'cs6068_final_' + str(t1) + '_' + str(t2) + '.' + filesuffix
         newaudio.export(new_filename, format=filesuffix)
         output_files.append(new_filename)
         if t2 == end_time:
