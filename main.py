@@ -111,7 +111,7 @@ def run_speech_to_text_client(file_path):
     return text_result, time_offset
 
 
-def do_speech_to_text(file_path, conversion_method, save_text=False):
+def do_speech_to_text(file_path, conversion_method, save_text=False, split_size=30000, split_overlap=1000):
     """Execute speech to text via google cloud's api.
     Heavily derived from google cloud's tutorial:
         https://cloud.google.com/speech-to-text/docs/reference/libraries
@@ -136,11 +136,9 @@ def do_speech_to_text(file_path, conversion_method, save_text=False):
         tempdir = tempfile.TemporaryDirectory()
 
         # split the audio files
-        segment_length = 30000
-        overlap_length = 1000
         start_time = 0
         end_time = -1
-        split_filenames = audiosplitter.split_audio_file(file_path, segment_length, overlap_length, start_time, end_time, temp_dir=(tempdir.name + '/'))
+        split_filenames = audiosplitter.split_audio_file(file_path, int(split_size), int(split_overlap), start_time, end_time, temp_dir=(tempdir.name + '/'))
     
         # spin up a thread for each split of the file
         #for split_filename in split_filenames:
@@ -210,6 +208,12 @@ def main():
     _a('--keywords', '-k', default=_h.DEFAULT_KEYWORDS,
         help='What keywords to search for.')
 
+    _a('--split-size', '-z', default=_h.DEFAULT_SPLIT_SIZE,
+        help='Length of the chunks that the audio will be split into to parallelize (in ms)')
+
+    _a('--split-overlap', '-o', default=_h.DEFAULT_SPLIT_OVERLAP,
+        help='Amount that each chunk of audio will overlap the adjacent chunks (in ms)')
+
     _a('--save-text', '-t', action='store_true', 
         help='Option to save the transcript as a txt file')
     args = arg_parser.parse_args()
@@ -223,7 +227,7 @@ def main():
         print('\tthe code will assume this is a google bucket uri')
     
     txt, time_offset = do_speech_to_text(
-        args.input_file, args.conversion_method.lower(), save_text=args.save_text)
+        args.input_file, args.conversion_method.lower(), save_text=args.save_text, split_size=args.split_size, split_overlap=args.split_overlap)
     search_results = do_text_search(txt, args.keywords, args.search_method.lower(), 
                                     chunk_size=10000, overlap=20)
 
