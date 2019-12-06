@@ -2,6 +2,24 @@
 # for archiving metrics and versioning and whatnot
 
 ###############################################################################
+# Full Lecture conversion & search via parallel methods (non-verbose output)
+#   commit: 52308ec6b9bac64884cce38bf286a0bcdabe6594
+###############################################################################
+
+# NOTE: 
+#   ffmpeg -y -i LectureFull.mp3 -ac 1 -acodec pcm_s16le -ar 16000 LectureFull.wav
+#   was run in the resources folder prior to the following:
+PS C:\Users\Kevin\Documents\myGit\cs6068_final> py .\main.py -c parallel -i .\resources\LectureFull.wav   
+start: 0
+end:   6112731
+done executing
+Speech to text runtime: 170787.33944892883 ms
+Search runtime: 1.0001659393310547 ms
+search results:
+Word: exam, Start time: 0 hours 0 minutes 30 seconds 300000000 nanos
+Word: exam, Start time: 0 hours 0 minutes 12 seconds 700000000 nanos
+
+###############################################################################
 # Full Lecture conversion & search via sequential methods 
 #   commit: 2d5b63d12d2dfde858fcdbdcbe38bc58879b916f
 ###############################################################################

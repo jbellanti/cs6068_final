@@ -130,7 +130,7 @@ def do_speech_to_text(file_path, conversion_method, save_text=False):
                      'nanos': time_offset[i].start_time.nanos}
             RESULT_LIST.append(entry)
 
-        vprint('Speech to text runtime:', (time.time() - runtime_start)*1000, 'ms')
+        print('Speech to text runtime:', (time.time() - runtime_start)*1000, 'ms')
     elif conversion_method == _h.PARALLEL_FLAG:
         # create temp directory
         tempdir = tempfile.TemporaryDirectory()
@@ -148,7 +148,7 @@ def do_speech_to_text(file_path, conversion_method, save_text=False):
             executer.map(thread_function, split_filenames, range(len(split_filenames)))
 
         print("done executing")
-        vprint('Speech to text runtime:', (time.time() - runtime_start)*1000, 'ms')
+        print('Speech to text runtime:', (time.time() - runtime_start)*1000, 'ms')
         
         # sort the list so that it is in order
 
