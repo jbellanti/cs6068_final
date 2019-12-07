@@ -240,7 +240,7 @@ def main():
     txt, time_offset = do_speech_to_text(
         args.input_file, args.conversion_method.lower(), save_text=args.save_text, split_size=args.split_size, split_overlap=args.split_overlap)
     search_results = do_text_search(txt, args.keywords, args.search_method.lower(), 
-                                    chunk_size=10000, overlap=20)
+                                    chunk_size=10000, overlap=20) # not parametrized as we do not care to run parallel search (little gains...)
 
     print('search results:')
     for result in search_results:
