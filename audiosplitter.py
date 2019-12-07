@@ -33,8 +33,8 @@ def split_audio_file(filename, segment_length, overlap_length, start_time, end_t
     # calculate the end time if none was specified
     if end_time == -1:
         end_time = len(sound)
-        print('start:',start_time)
-        print('end:  ',end_time)
+        print('audio file start:', start_time, 'ms')
+        print('audio file end:  ', end_time, 'ms')
 
     # return a list of the exported audio files
     output_files = []

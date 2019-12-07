@@ -45,11 +45,15 @@ def thread_function(filename, id):
         ms = int(filename[start:end])
         sec = math.floor(ms / 1000)
 
+        # print('filename:', filename)
+        # print('yields:', sec, 's or', ms, 'ms')
+
         text_result, time_offset = run_speech_to_text_client(filename)
         for i in range(len(time_offset)):
             entry = {'word': time_offset[i].word,
                      'seconds': sec + time_offset[i].start_time.seconds,
                      'nanos': time_offset[i].start_time.nanos}
+            # print(entry)
             RESULT_LIST.append(entry)
 
     except Exception as e:
@@ -149,13 +153,7 @@ def do_speech_to_text(file_path, conversion_method, save_text=False, split_size=
         print('Speech to text runtime:', (time.time() - runtime_start)*1000, 'ms')
         
         # sort the list so that it is in order
-
-        RESULT_LIST.sort(key=lambda x:x['word'])
-
-        # TODO: make sure python dictionaries don't allow for duplicates
-        # merge.merge_strings([i.word for i in RESULT_LIST])
-
-        # https://cloud.google.com/speech-to-text/docs/reference/rpc/google.cloud.speech.v1#google.cloud.speech.v1.WordInfo
+        RESULT_LIST.sort(key=lambda x:x['seconds'])
     else:
         print('UNKNOWN CONVERSION METHOD (', conversion_method, ')!')
         print('use the -h option for more usage information.')
@@ -173,7 +171,20 @@ def do_speech_to_text(file_path, conversion_method, save_text=False, split_size=
         new_fname = new_fname.split('.')[-2] + '.txt'
         new_fpath = os.path.join(_h.THIS_DIR, _h.DEFAULT_AUDIO_FILE_DIR, new_fname)
         with open(new_fpath, 'w') as f:
-            f.write(text_result)
+            #f.write(' '.join(list(map(lambda x:x['word'], text_result))))
+            f.write(
+                '\n'.join(list(map(lambda x: 
+                    u"Start: {} hours {} minutes {} seconds {} nanos ({})\tWord: {}"
+                        .format( 
+                            x['seconds'] // 60 // 60, 
+                            x['seconds'] // 60, 
+                            x['seconds'] % 60, 
+                            x['nanos'], 
+                            x['seconds'],
+                            x['word']), 
+                    text_result)
+                ))
+            )
 
     return text_result, time_offset
 
@@ -234,7 +245,7 @@ def main():
     print('search results:')
     for result in search_results:
         hr = math.floor(result['seconds'] / 60 / 60)
-        min = math.floor(result['seconds'] / 60)
+        min = math.floor((result['seconds'] / 60) % 60)
         sec = result['seconds'] % 60
         print(
             u"Word: {}, Start time: {} hours {} minutes {} seconds {} nanos".format(
