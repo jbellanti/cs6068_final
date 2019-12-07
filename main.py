@@ -146,10 +146,11 @@ def do_speech_to_text(file_path, conversion_method, save_text=False, split_size=
     
         # spin up a thread for each split of the file
         #for split_filename in split_filenames:
-        with concurrent.futures.ThreadPoolExecutor() as executer:
+        n_workers = len(split_filenames)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=n_workers) as executer:
             executer.map(thread_function, split_filenames, range(len(split_filenames)))
 
-        print("done executing")
+        print("done executing {} workers".format(n_workers))
         print('Speech to text runtime:', (time.time() - runtime_start)*1000, 'ms')
         
         # sort the list so that it is in order
