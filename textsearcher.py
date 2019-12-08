@@ -49,7 +49,7 @@ def _seq_text_search(text_input, keywords):
     for word_info in text_input:
         vprint('checking word:', word_info)
         # vprint('checking word:', word_info['word'])
-        if word_info['word'] in keywords:
+        if word_info['word'].lower() in keywords:
             hits.append(word_info)
     return hits
 

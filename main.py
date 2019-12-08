@@ -172,7 +172,7 @@ def do_speech_to_text(file_path, conversion_method, save_text=False, split_size=
         new_fname = new_fname.split('.')[-2] + '.txt'
         new_fpath = os.path.join(_h.THIS_DIR, _h.DEFAULT_AUDIO_FILE_DIR, new_fname)
         with open(new_fpath, 'w') as f:
-            #f.write(' '.join(list(map(lambda x:x['word'], text_result))))
+            # f.write(' '.join(list(map(lambda x:x['word'], text_result))))
             f.write(
                 '\n'.join(list(map(lambda x: 
                     u"Start: {} hours {} minutes {} seconds {} nanos ({})\tWord: {}"
@@ -218,7 +218,7 @@ def main():
         help='Print out more information during execution.')
 
     _a('--keywords', '-k', default=_h.DEFAULT_KEYWORDS,
-        help='What keywords to search for.')
+        help='What keywords to search for (space delimited in quotes).')
 
     _a('--split-size', '-z', default=_h.DEFAULT_SPLIT_SIZE,
         help='Length of the chunks that the audio will be split into to parallelize (in ms)')
@@ -240,7 +240,7 @@ def main():
     
     txt, time_offset = do_speech_to_text(
         args.input_file, args.conversion_method.lower(), save_text=args.save_text, split_size=args.split_size, split_overlap=args.split_overlap)
-    search_results = do_text_search(txt, args.keywords, args.search_method.lower(), 
+    search_results = do_text_search(txt, args.keywords.lower().split(' '), args.search_method.lower(), 
                                     chunk_size=10000, overlap=20) # not parametrized as we do not care to run parallel search (little gains...)
 
     print('search results:')

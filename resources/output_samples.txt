@@ -1,6 +1,105 @@
 # This file contains example outputs along with associated commit hashes when they were run
 # for archiving metrics and versioning and whatnot
 
+
+###############################################################################
+# Lecture conversions & searches via parallel methods (non-verbose output)
+#   commit: 2376602622af5920528b4e3711cd0f7194ec9721
+###############################################################################
+
+PS C:\Users\Kevin\Documents\myGit\cs6068_final> py .\main.py -c parallel -i .\resources\week2-lecture-concurrency.wav -z 59000 -o 750 -t -k "test exam final midterm study critical important"
+audio file start: 0 ms
+audio file end:   5317611 ms
+done executing 92 workers
+Speech to text runtime: 158806.22816085815 ms
+Search runtime: 0.9999275207519531 ms
+search results:
+Word: important, Start time: 0 hours 11 minutes 54 seconds 100000000 nanos
+Word: important, Start time: 0 hours 33 minutes 35 seconds 700000000 nanos
+
+PS C:\Users\Kevin\Documents\myGit\cs6068_final> py .\main.py -c parallel -i .\resources\week3-lecture-intro-to-cuda.wav -z 59000 -o 750 -t -k "test exam final midterm study critical important"
+audio file start: 0 ms
+audio file end:   5278080 ms
+done executing 91 workers
+Speech to text runtime: 152934.89050865173 ms
+Search runtime: 1.0004043579101562 ms
+search results:
+
+PS C:\Users\Kevin\Documents\myGit\cs6068_final> py .\main.py -c parallel -i .\resources\week4-lecture-shared-mem.wav -z 59000 -o 750 -t -k "test exam final midterm study critical important"   
+audio file start: 0 ms
+audio file end:   5415232 ms
+done executing 93 workers
+Speech to text runtime: 157956.86626434326 ms
+Search runtime: 0.0 ms
+search results:
+
+PS C:\Users\Kevin\Documents\myGit\cs6068_final> py .\main.py -c parallel -i .\resources\week5-lecture-sparse-matrix-latency-bandwidth.wav -z 59000 -o 750 -t -k "test exam final midterm study critical important"
+audio file start: 0 ms
+audio file end:   5440939 ms
+done executing 94 workers
+Speech to text runtime: 149974.80368614197 ms
+Search runtime: 1.0004043579101562 ms
+search results:
+Word: important, Start time: 0 hours 2 minutes 13 seconds 100000000 nanos
+Word: final, Start time: 1 hours 3 minutes 9 seconds 500000000 nanos
+Word: final, Start time: 1 hours 3 minutes 30 seconds 0 nanos
+
+PS C:\Users\Kevin\Documents\myGit\cs6068_final> py .\main.py -c parallel -i .\resources\week6-lecture-sparse-histograms-and-sorting.wav -z 59000 -o 750 -t -k "test exam final midterm study critical important"
+audio file start: 0 ms
+audio file end:   6556971 ms
+done executing 113 workers
+Speech to text runtime: 178584.58638191223 ms
+Search runtime: 1.0004043579101562 ms
+search results:
+Word: exam, Start time: 0 hours 0 minutes 39 seconds 0 nanos
+Word: important, Start time: 0 hours 8 minutes 8 seconds 100000000 nanos
+Word: final, Start time: 0 hours 22 minutes 17 seconds 800000000 nanos
+Word: final, Start time: 0 hours 38 minutes 18 seconds 500000000 nanos
+Word: final, Start time: 0 hours 47 minutes 2 seconds 400000000 nanos
+Word: Final, Start time: 1 hours 6 minutes 22 seconds 0 nanos
+
+PS C:\Users\Kevin\Documents\myGit\cs6068_final> py .\main.py -c parallel -i .\resources\week7-lecture-radix-sort-and-hashing.wav -z 59000 -o 750 -t -k "test exam final midterm study critical important"       
+audio file start: 0 ms
+audio file end:   6112768 ms
+done executing 105 workers
+Speech to text runtime: 165430.49812316895 ms
+Search runtime: 0.9999275207519531 ms
+search results:
+Word: exam, Start time: 0 hours 1 minutes 53 seconds 800000000 nanos
+Word: midterm, Start time: 0 hours 3 minutes 50 seconds 200000000 nanos
+Word: midterm, Start time: 1 hours 30 minutes 44 seconds 700000000 nanos
+
+PS C:\Users\Kevin\Documents\myGit\cs6068_final> py .\main.py -c parallel -i .\resources\LectureFull.wav -z 59000 -o 750 -t -k "test exam final midterm study critical important"
+audio file start: 0 ms
+audio file end:   6112731 ms
+done executing 105 workers
+Speech to text runtime: 182108.02817344666 ms
+Search runtime: 2.0017623901367188 ms
+search results:
+Word: exam, Start time: 0 hours 0 minutes 14 seconds 100000000 nanos
+Word: midterm, Start time: 0 hours 3 minutes 50 seconds 200000000 nanos
+Word: midterm, Start time: 1 hours 30 minutes 44 seconds 600000000 nanos
+Word: test, Start time: 1 hours 33 minutes 12 seconds 0 nanos
+
+PS C:\Users\Kevin\Documents\myGit\cs6068_final> py .\main.py -c parallel -i .\resources\LectureShort.wav -z 59000 -o 750 -t -k "test exam final midterm study critical important"
+audio file start: 0 ms
+audio file end:   299860 ms
+done executing 6 workers
+Speech to text runtime: 26227.90241241455 ms
+Search runtime: 0.0 ms
+search results:
+Word: exam, Start time: 0 hours 0 minutes 14 seconds 100000000 nanos
+
+PS C:\Users\Kevin\Documents\myGit\cs6068_final> py .\main.py -c parallel -i .\resources\Audio.wav -z 59000 -o 750 -t -k "test exam final midterm study critical important"
+audio file start: 0 ms
+audio file end:   9425 ms
+done executing 1 workers
+Speech to text runtime: 2559.577465057373 ms
+Search runtime: 0.0 ms
+search results:
+Word: test, Start time: 0 hours 0 minutes 2 seconds 900000000 nanos
+
+
 ###############################################################################
 # Full Lecture conversion & search via parallel methods (non-verbose output)
 #   commit: 52308ec6b9bac64884cce38bf286a0bcdabe6594
@@ -18,6 +117,107 @@ Search runtime: 1.0001659393310547 ms
 search results:
 Word: exam, Start time: 0 hours 0 minutes 30 seconds 300000000 nanos
 Word: exam, Start time: 0 hours 0 minutes 12 seconds 700000000 nanos
+
+
+###############################################################################
+# Full Lecture conversion & search via parallel methods
+#   (non-verbose output, saving to file, 59s segments, 1s audio overlap)
+#   commit: d3e22f35334d05f2376b5e2c23bee6f603649fc0
+#
+#   note: running with larger segments takes less time for larger files
+#      larger audio segments increase our CPU efficiency
+###############################################################################
+
+PS C:\Users\Kevin\Documents\myGit\cs6068_final> py .\main.py -c parallel -i .\resources\LectureFull.wav -z 59000 -o 1000
+audio file start: 0 ms
+audio file end:   6112731 ms
+done executing
+Speech to text runtime: 157137.00675964355 ms
+Search runtime: 1.0004043579101562 ms
+search results:
+Word: exam, Start time: 0 hours 0 minutes 14 seconds 100000000 nanos
+
+
+###############################################################################
+# Full Lecture conversion & search via parallel methods
+#   (non-verbose output, saving to file, 59s segments, 1s audio overlap)
+#   commit: d3e22f35334d05f2376b5e2c23bee6f603649fc0
+#
+#   note: network was more congested (Friday evening) so took longer to run
+#   note 2: running with larger segments takes less time for larger files
+#      larger audio segments increase our CPU efficiency
+###############################################################################
+
+PS C:\Users\Kevin\Documents\myGit\cs6068_final> py .\main.py -c parallel -i .\resources\LectureFull.wav -z 59000 -o 1000
+audio file start: 0 ms
+audio file end:   6112731 ms
+done executing
+Speech to text runtime: 221743.83854866028 ms
+Search runtime: 1.0004043579101562 ms
+search results:
+Word: exam, Start time: 0 hours 0 minutes 14 seconds 100000000 nanos
+
+
+###############################################################################
+# Full Lecture conversion & search via parallel methods
+#   (non-verbose output, saving to file, 20s segments, 2s audio overlap)
+#   commit: d3e22f35334d05f2376b5e2c23bee6f603649fc0
+#
+#   note: network was more congested (Friday evening) so took longer to run
+#   note 2: running with smaller segments takes longer as the gain from smaller
+#      chunks does not justify the number of threads needed to finish
+###############################################################################
+
+PS C:\Users\Kevin\Documents\myGit\cs6068_final> py .\main.py -c parallel -i .\resources\LectureFull.wav -z 5000 -o 1000 -t
+audio file start: 0 ms
+audio file end:   6112731 ms
+done executing
+Speech to text runtime: 1130574.583530426 ms
+Search runtime: 2.0003318786621094 ms
+search results:
+Word: exam, Start time: 0 hours 1 minutes 47 seconds 300000000 nanos
+Word: test, Start time: 1 hours 33 minutes 12 seconds 0 nanos
+
+
+###############################################################################
+# Full Lecture conversion & search via parallel methods
+#   (non-verbose output, saving to file, 20s segments, 2s audio overlap)
+#   commit: d3e22f35334d05f2376b5e2c23bee6f603649fc0
+#
+#   note: network was more congested (Friday evening) so took longer to run
+###############################################################################
+
+PS C:\Users\Kevin\Documents\myGit\cs6068_final> py .\main.py -c parallel -i .\resources\LectureFull.wav -z 20000 -o 2000 -t
+audio file start: 0 ms
+audio file end:   6112731 ms
+done executing
+Speech to text runtime: 348893.00537109375 ms
+Search runtime: 2.000093460083008 ms
+search results:
+Word: exam, Start time: 0 hours 0 minutes 14 seconds 100000000 nanos
+Word: exam, Start time: 0 hours 0 minutes 30 seconds 200000000 nanos
+Word: test, Start time: 1 hours 16 minutes 31 seconds 200000000 nanos
+Word: test, Start time: 1 hours 33 minutes 12 seconds 300000000 nanos
+
+
+###############################################################################
+# Full Lecture conversion & search via parallel methods (non-verbose output)
+#   commit: 52308ec6b9bac64884cce38bf286a0bcdabe6594
+###############################################################################
+
+# NOTE:
+#   ffmpeg -y -i LectureFull.mp3 -ac 1 -acodec pcm_s16le -ar 16000 LectureFull.wav
+#   was run in the resources folder prior to the following:
+PS C:\Users\Kevin\Documents\myGit\cs6068_final> py .\main.py -c parallel -i .\resources\LectureFull.wav
+start: 0
+end:   6112731
+done executing
+Speech to text runtime: 170787.33944892883 ms
+Search runtime: 1.0001659393310547 ms
+search results:
+Word: exam, Start time: 0 hours 0 minutes 30 seconds 300000000 nanos
+Word: exam, Start time: 0 hours 0 minutes 12 seconds 700000000 nanos
+
 
 ###############################################################################
 # Full Lecture conversion & search via sequential methods 

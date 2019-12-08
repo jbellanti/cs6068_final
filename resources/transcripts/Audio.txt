@@ -1,0 +1,10 @@
+Start: 0 hours 0 minutes 1 seconds 200000000 nanos (1)	Word: testing
+Start: 0 hours 0 minutes 2 seconds 0 nanos (2)	Word: 1
+Start: 0 hours 0 minutes 2 seconds 600000000 nanos (2)	Word: 2
+Start: 0 hours 0 minutes 2 seconds 700000000 nanos (2)	Word: 3
+Start: 0 hours 0 minutes 2 seconds 900000000 nanos (2)	Word: test
+Start: 0 hours 0 minutes 4 seconds 400000000 nanos (4)	Word: recording
+Start: 0 hours 0 minutes 4 seconds 900000000 nanos (4)	Word: for
+Start: 0 hours 0 minutes 5 seconds 400000000 nanos (5)	Word: Google
+Start: 0 hours 0 minutes 5 seconds 900000000 nanos (5)	Word: Cloud
+Start: 0 hours 0 minutes 7 seconds 800000000 nanos (7)	Word: yep
